@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: kubernetes
-name: app-server
+name: git-tools
 
 steps:
 - name: Build docker image
