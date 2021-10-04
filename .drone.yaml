@@ -24,6 +24,7 @@ steps:
   - export REPO_URL=public.ecr.aws/r2d0o9n8/git-kustomize
   - export IMAGE_TAG=v1.0.0-${DRONE_COMMIT_SHA:0:8}
   - echo $REPO_URL:$IMAGE_TAG
+  - sleep 10
   - docker build
          -t $REPO_URL:$IMAGE_TAG
          --no-cache .
