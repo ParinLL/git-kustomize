@@ -30,7 +30,7 @@ steps:
   - docker images
   - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/r2d0o9n8
   - docker push $REPO_URL:$IMAGE_TAG
-  - echo "Succeed to push to ECR ($REPO_URL):($IMAGE_TAG)!!!"
+  - echo "Succeed to push to ECR $REPO_URL:$IMAGE_TAG!!!"
 
 
 - name: Send telegram notification
