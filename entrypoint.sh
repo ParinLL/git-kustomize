@@ -8,7 +8,7 @@ for IMAGE in $(echo $IMAGES | sed "s/,/ /g")
 do
     kustomize edit set image $IMAGE:$IMAGE_TAG
 done
-git config user.name "Devops BOT"
-git config user.email "devops@rblabs.io"
+git config --global user.name "Devops BOT"
+git config --global user.email "devops@rblabs.io"
 git add . && git commit -m "🚀CI update to ${IMAGE_TAG}"
-git push ssh://git@$MANIFEST_HOST:$SSH_PORT/$MANIFEST_USER/$MANIFEST_REPO.git
+git push -u origin master
