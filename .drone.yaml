@@ -23,7 +23,7 @@ steps:
   - apk add --update nodejs aws-cli
   - export REPO_URL=public.ecr.aws/r2d0o9n8/git-kustomize
   - export IMAGE_TAG=v1.0.0-${DRONE_COMMIT_SHA:0:8}
-  - echo $IMAGE_TAG
+  - echo $REPO_URL:$IMAGE_TAG
   - docker build
          -t $REPO_URL:$IMAGE_TAG
          --no-cache .
