@@ -21,7 +21,7 @@ steps:
 
 
 - name: Build and Push docker image
-  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.3
+  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.4
   volumes:
   - name: cred
     path: /kaniko/.docker  
