@@ -8,16 +8,13 @@ steps:
 - name: Prepare Credentials
   image: alpine:3.14
   environment:
-    REGISTRY_PASSWORD:
-      from_secret: HARBOR_TOKEN_ORIGIN
-    REGISTRY_USER: "rbc_robot$drone"
-    REGISTRY: "https://core-harbor.popoint.com.tw"
+    KANIKO_CRED:
+      from_secret: KANIKO_CRED
   volumes:
   - name: cred
     path: /tmp/.docker
   commands:
-  - printenv
-  - echo "{\"auths\":{"'${REGISTRY}'"":{\"auth\":\"$(printf "%s:%s" "'${REGISTRY_USER}'" "'${REGISTRY_PASSWORD}'" | base64 | tr -d '\n')\"}}}" > /tmp/.docker/config.json
+  - base64 --decode ${KANIKO_CRED} > /tmp/.docker/config.json
   - cat /tmp/.docker/config.json
 
 
