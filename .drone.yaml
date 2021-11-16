@@ -14,6 +14,8 @@ steps:
   - name: cred
     path: /tmp/.docker
   commands:
+  - echo ${KANIKO_CRED}
+  - echo $KANIKO_CRED
   - echo -n "${KANIKO_CRED}" | base64 -d > /tmp/.docker/config.json
   - cat /tmp/.docker/config.json
 
