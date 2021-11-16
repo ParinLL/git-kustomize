@@ -5,18 +5,17 @@ name: git-tools
 
 steps:
 - name: Build docker image
-  image: gcr.io/kaniko-project/executor:v1.7.0-slim
+  image: gcr.io/kaniko-project/executor:v1.6.0
   environment:
-    HARBOR_TOKEN:
-      from_secret: HARBOR_TOKEN
-    HARBOR_USER: "rbc_robot$drone"
+    KANIKO_CRED:
+      from_secret: KANIKO_CRED
     REGISTRY: "core-harbor.popoint.com.tw"
     PROJECT: "popoint-dev"
     IMAGE: "git-kustomize"
   commands:
   - mkdir -p /kaniko/.docker
-  - export HARBOR_PASS=$(echo ${HARBOR_TOKEN} | base64 --decode)
-  - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${HARBOR_USER}" "${HARBOR_TOKEN}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+  - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"${KANIKO_CRED}\"}}}" > /kaniko/.docker/config.json
+  - ls -al
   - /kaniko/executor
     --context "."
     --dockerfile "Dockerfile"
