@@ -18,6 +18,7 @@ steps:
   - name: cred
     path: /tmp/.docker
   commands:
+  - printenv
   - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"${KANIKO_CRED}\"}}}" > /tmp/.docker/config.json
 
 
