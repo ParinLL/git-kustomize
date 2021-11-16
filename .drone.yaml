@@ -17,7 +17,7 @@ steps:
     path: /tmp/.docker
   commands:
   - printenv
-  - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /tmp/.docker/config.json
+  - echo "{\"auths\":{"'${REGISTRY}'"":{\"auth\":\"$(printf "%s:%s" "'${REGISTRY_USER}'" "'${REGISTRY_PASSWORD}'" | base64 | tr -d '\n')\"}}}" > /tmp/.docker/config.json
   - cat /tmp/.docker/config.json
 
 
