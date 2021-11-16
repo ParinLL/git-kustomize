@@ -27,6 +27,7 @@ steps:
         }
 	    }
     }
+    EOF
   - cat /tmp/.docker/config.json
 
 
