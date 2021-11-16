@@ -4,25 +4,32 @@ type: kubernetes
 name: git-tools
 
 steps:
-- name: Build docker image
-  image: gcr.io/kaniko-project/executor:v1.6.0
+
+# - name: Prepare Credentials
+#   image: alpine:3.14
+#   environment:
+#     PLUGIN_TAGS: v0.1,latest
+#     PLUGIN_PASSWORD:
+#       from_secret: HARBOR_TOKEN_ORIGIN
+#     PLUGIN_USERNAME: "rbc_robot$drone"
+#     PLUGIN_DOCKERFILE: "Dockerfile"
+#     PLUGIN_REPO: "core-harbor.popoint.com.tw/popoint-dev/git-kustomize"
+#   volumes:
+#   - name: cred
+#     path: /tmp/.docker
+#   commands:
+#   - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"${KANIKO_CRED}\"}}}" > /tmp/.docker/config.json
+
+
+- name: Build and Push docker image
+  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.1
   environment:
-    KANIKO_CRED:
-      from_secret: KANIKO_CRED
-    REGISTRY: "core-harbor.popoint.com.tw"
-    PROJECT: "popoint-dev"
-    IMAGE: "git-kustomize"
-  commands:
-  - mkdir -p /kaniko/.docker
-  - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"${KANIKO_CRED}\"}}}" > /kaniko/.docker/config.json
-  - ls -al
-  - /kaniko/executor
-    --context "."
-    --dockerfile "Dockerfile"
-    --destination "${REGISTRY}/${PROJECT}/${IMAGE}:${DRONE_COMMIT_SHA:0:8}-$DRONE_BUILD_NUMBER"  
-
-  - echo "Succeed to push to "${REGISTRY}/${PROJECT}/${IMAGE}:${DRONE_COMMIT_SHA:0:8}-$DRONE_BUILD_NUMBER"!!!"
-
+    PLUGIN_TAGS: v0.1,latest
+    PLUGIN_PASSWORD:
+      from_secret: HARBOR_TOKEN_ORIGIN
+    PLUGIN_USERNAME: "rbc_robot$drone"
+    PLUGIN_DOCKERFILE: "Dockerfile"
+    PLUGIN_REPO: "core-harbor.popoint.com.tw/popoint-dev/git-kustomize"
 
 - name: Send telegram notification
   image: appleboy/drone-telegram
@@ -47,3 +54,7 @@ steps:
     status:
     - success
     - failure
+
+volumes:
+- name: cred
+  temp: {}
