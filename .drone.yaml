@@ -9,11 +9,11 @@ steps:
   image: alpine:3.14
   environment:
     PLUGIN_TAGS: v0.1,latest
-    PLUGIN_PASSWORD:
-      from_secret: HARBOR_TOKEN_ORIGIN
+    KANIKO_CRED:
+      from_secret: KANIKO_CRED
     PLUGIN_USERNAME: "rbc_robot$drone"
     PLUGIN_DOCKERFILE: "Dockerfile"
-    PLUGIN_REPO: "core-harbor.popoint.com.tw/popoint-dev/git-kustomize"
+    REGISTRY: "core-harbor.popoint.com.tw"
   volumes:
   - name: cred
     path: /tmp/.docker
@@ -27,7 +27,7 @@ steps:
   - name: cred
     path: /kaniko/.docker  
   environment:
-    PLUGIN_TAGS: v0.1,${DRONE_COMMIT_SHA:0:8}-$DRONE_BUILD_NUMBER,latest
+    PLUGIN_TAGS: v0.1,v0.1-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER},latest
     PLUGIN_PASSWORD:
       from_secret: HARBOR_TOKEN_ORIGIN
     PLUGIN_USERNAME: "rbc_robot$drone"
