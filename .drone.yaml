@@ -5,26 +5,29 @@ name: git-tools
 
 steps:
 
-# - name: Prepare Credentials
-#   image: alpine:3.14
-#   environment:
-#     PLUGIN_TAGS: v0.1,latest
-#     PLUGIN_PASSWORD:
-#       from_secret: HARBOR_TOKEN_ORIGIN
-#     PLUGIN_USERNAME: "rbc_robot$drone"
-#     PLUGIN_DOCKERFILE: "Dockerfile"
-#     PLUGIN_REPO: "core-harbor.popoint.com.tw/popoint-dev/git-kustomize"
-#   volumes:
-#   - name: cred
-#     path: /tmp/.docker
-#   commands:
-#   - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"${KANIKO_CRED}\"}}}" > /tmp/.docker/config.json
+- name: Prepare Credentials
+  image: alpine:3.14
+  environment:
+    PLUGIN_TAGS: v0.1,latest
+    PLUGIN_PASSWORD:
+      from_secret: HARBOR_TOKEN_ORIGIN
+    PLUGIN_USERNAME: "rbc_robot$drone"
+    PLUGIN_DOCKERFILE: "Dockerfile"
+    PLUGIN_REPO: "core-harbor.popoint.com.tw/popoint-dev/git-kustomize"
+  volumes:
+  - name: cred
+    path: /tmp/.docker
+  commands:
+  - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"${KANIKO_CRED}\"}}}" > /tmp/.docker/config.json
 
 
 - name: Build and Push docker image
   image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.1
+  volumes:
+  - name: cred
+    path: /kaniko/.docker  
   environment:
-    PLUGIN_TAGS: v0.1,latest
+    PLUGIN_TAGS: v0.1,${DRONE_COMMIT_SHA:0:8}-$DRONE_BUILD_NUMBER,latest
     PLUGIN_PASSWORD:
       from_secret: HARBOR_TOKEN_ORIGIN
     PLUGIN_USERNAME: "rbc_robot$drone"
