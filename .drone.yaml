@@ -21,11 +21,11 @@ steps:
   - printenv
   - cat << EOF > /tmp/.docker/config.json
     {
-	    "auths": {
-	    	"https://${REGISTRY}": {
-	    		"auth": "${KANIKO_CRED}"
+    "auths": {
+        "https://${REGISTRY}": {
+          "auth": "${KANIKO_CRED}"
         }
-	    }
+      }
     }
     EOF
   - cat /tmp/.docker/config.json
