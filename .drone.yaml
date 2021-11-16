@@ -21,15 +21,14 @@ steps:
 
 
 - name: Build and Push docker image
-  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.1
+  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.2
   volumes:
   - name: cred
     path: /kaniko/.docker  
   environment:
+    KANIKO_CRED:
+      from_secret: KANIKO_CRED    
     PLUGIN_TAGS: v0.1,v0.1-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER},latest
-    PLUGIN_PASSWORD:
-      from_secret: HARBOR_TOKEN_ORIGIN
-    PLUGIN_USERNAME: "rbc_robot$drone"
     PLUGIN_DOCKERFILE: "Dockerfile"
     PLUGIN_REPO: "core-harbor.popoint.com.tw/popoint-dev/git-kustomize"
 
