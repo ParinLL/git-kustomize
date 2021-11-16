@@ -19,7 +19,7 @@ steps:
     path: /tmp/.docker
   commands:
   - printenv
-  - cat <<EOF >>/tmp/.docker/config.json
+  - cat << EOF > /tmp/.docker/config.json
     {
 	    "auths": {
 	    	"https://${REGISTRY}": {
