@@ -19,7 +19,7 @@ steps:
     path: /tmp/.docker
   commands:
   - printenv
-  - echo "{\"auths\":{"$REGISTRY":{\"auth\":"$KANIKO_CRED"}}}" > /tmp/.docker/config.json
+  - echo "{\"auths\":{"${REGISTRY}":{\"auth\":"${KANIKO_CRED}"}}}" > /tmp/.docker/config.json
 
 
 - name: Build and Push docker image
