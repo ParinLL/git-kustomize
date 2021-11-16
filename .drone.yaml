@@ -23,9 +23,9 @@ steps:
   # - ls -al /drone/src
   # - /drone-kaniko/executor --help
   - cat /kaniko/.docker/config.json
-  - /drone-kaniko/executor --dockerfile=${DOCKERFILE_PATH} \
-    --destination="${REGISTRY}/$[PROJECT_ID}/${IMAGE_PATH}:${TAG}" \
-    --context=dir://drone/src/
+  - /drone-kaniko/executor --dockerfile ${DOCKERFILE_PATH} \
+    --destination "${REGISTRY}/$[PROJECT_ID}/${IMAGE_PATH}:${TAG}" \
+    --context dir://drone/src/
 
 - name: Send telegram notification
   image: appleboy/drone-telegram
