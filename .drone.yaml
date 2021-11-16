@@ -20,6 +20,7 @@ steps:
   commands:
   - /drone-kaniko/entrypoint.sh
   - cat /kaniko/.docker/config.json
+  - ls -al
   - /drone-kaniko/executor --dockerfile=$DOCKERFILE_PATH \
     --context=$KANIKO_CRED \
     --destination "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG" \
