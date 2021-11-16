@@ -15,7 +15,7 @@ steps:
     IMAGE: "git-kustomize"
   commands:
   - mkdir -p /kaniko/.docker
-  - export HARBOR_PASS=$(echo ${HARBOR_TOKEN} | base63 --decode)
+  - export HARBOR_PASS=$(echo ${HARBOR_TOKEN} | base64 --decode)
   - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${HARBOR_USER}" "${HARBOR_TOKEN}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
   - /kaniko/executor
     --context "."
