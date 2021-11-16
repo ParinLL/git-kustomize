@@ -5,33 +5,24 @@ name: git-tools
 
 steps:
 - name: Build docker image
-  image: docker:20.10.8-dind-alpine3.14
+  image: gcr.io/kaniko-project/executor:v1.7.0-slim
   environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-  volumes:
-  - name: dockersock
-    path: /var/run
+    HARBOR_TOKEN:
+      from_secret: HARBOR_TOKEN
+    HARBOR_USER: "rbc_robot$drone"
+    REGISTRY: "core-harbor.popoint.com.tw"
+    PROJECT: "popoint-dev"
+    IMAGE: "git-kustomize"
   commands:
-  - mkdir ~/.aws
-  - touch ~/.aws/credentials
-  - echo "[default]" >> ~/.aws/credentials
-  - echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
-  - echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
-  - apk add --update nodejs aws-cli
-  - export REPO_URL=public.ecr.aws/r2d0o9n8/git-kustomize
-  - export IMAGE_TAG=v1.0.0-${DRONE_COMMIT_SHA:0:8}
-  - echo $REPO_URL:$IMAGE_TAG
-  - sleep 5
-  - docker build
-         -t $REPO_URL:$IMAGE_TAG
-         --no-cache .
-  - docker images
-  - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/r2d0o9n8
-  - docker push $REPO_URL:$IMAGE_TAG
-  - echo "Succeed to push to ECR $REPO_URL:$IMAGE_TAG!!!"
+  - mkdir -p /kaniko/.docker
+  - export HARBOR_PASS=$(echo ${HARBOR_TOKEN} | base63 --decode)
+  - echo "{\"auths\":{\"${REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${HARBOR_USER}" "${HARBOR_TOKEN}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+  - /kaniko/executor
+    --context "."
+    --dockerfile "Dockerfile"
+    --destination "${REGISTRY}/${PROJECT}/${IMAGE}:${DRONE_COMMIT_SHA:0:8}-$DRONE_BUILD_NUMBER"  
+
+  - echo "Succeed to push to "${REGISTRY}/${PROJECT}/${IMAGE}:${DRONE_COMMIT_SHA:0:8}-$DRONE_BUILD_NUMBER"!!!"
 
 
 - name: Send telegram notification
@@ -57,15 +48,3 @@ steps:
     status:
     - success
     - failure
-
-services:
-- name: docker
-  image: docker:20.10.8-dind-alpine3.14
-  privileged: true
-  volumes:
-  - name: dockersock
-    path: /var/run
-
-volumes:
-- name: dockersock
-  temp: {}
