@@ -7,7 +7,7 @@ steps:
 
 
 - name: Build and Push docker image
-  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.6
+  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.7
   environment:
     TAG: v0.1-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER}
     BASE64_TOKEN:
