@@ -13,7 +13,7 @@ steps:
     BASE64_TOKEN:
       from_secret: HARBOR_RD_TOKENBASE64
     REGISTRY_USER: "rbc_robot$drone"
-    DOCKERFILE_PATH: "Dockerfile"
+    DOCKERFILE_PATH: "/drone/src/Dockerfile"
     REGISTRY: "core-harbor.popoint.com.tw"
     PROJECT_ID: "library"
     IMAGE_PATH: "git-kustomize"
@@ -22,7 +22,6 @@ steps:
   - cat /kaniko/.docker/config.json
   - ls -al /drone/src
   - /drone-kaniko/executor --dockerfile=$DOCKERFILE_PATH \
-    --context=$KANIKO_CRED \
     --destination "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG" \
     --context dir:/./
 
