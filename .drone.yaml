@@ -19,7 +19,7 @@ steps:
     IMAGE_PATH: "git-kustomize"
   commands:
   - /workspace/entrypoint.sh
-  - cat /kaniko/.docker/config.json
+  # - cat /kaniko/.docker/config.json
   # - echo "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"
   # - ls -al /drone/src
   # - /kaniko/executor --help
