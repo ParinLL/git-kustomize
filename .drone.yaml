@@ -19,10 +19,11 @@ steps:
     IMAGE_PATH: "git-kustomize"
   commands:
   - /workspace/entrypoint.sh
-  # - cat /kaniko/.docker/config.json
+  - cat /kaniko/.docker/config.json
+  - echo "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"
   # - ls -al /drone/src
   # - /kaniko/executor --help
-  - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://drone/src/
+  # - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://drone/src/
 
 - name: Send telegram notification
   image: appleboy/drone-telegram
