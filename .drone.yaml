@@ -21,8 +21,8 @@ steps:
   - /workspace/entrypoint.sh
   # - cat /kaniko/.docker/config.json
   # - ls -al /drone/src
-  - /kaniko/executor --help
-  # - /kaniko/executor --dockerfile $DOCKERFILE_PATH  --destination "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  --context dir://drone/src/
+  # - /kaniko/executor --help
+  - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://drone/src/
 
 - name: Send telegram notification
   image: appleboy/drone-telegram
