@@ -7,7 +7,7 @@ steps:
 
 
 - name: Build and Push docker image
-  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.7
+  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.7.1
   environment:
     TAG: v0.1-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER}
     BASE64_TOKEN:
@@ -18,12 +18,11 @@ steps:
     PROJECT_ID: "library"
     IMAGE_PATH: "git-kustomize"
   commands:
-  - /drone-kaniko/entrypoint.sh
+  - /workspace/entrypoint.sh
   - cat /kaniko/.docker/config.json
   # - ls -al /drone/src
   # - /drone-kaniko/executor --help
-  - cat /kaniko/.docker/config.json
-  - /drone-kaniko/executor --dockerfile ${DOCKERFILE_PATH} \
+  - /kaniko/executor --dockerfile ${DOCKERFILE_PATH} \
     --destination "${REGISTRY}/$[PROJECT_ID}/${IMAGE_PATH}:${TAG}" \
     --context dir://drone/src/
 
