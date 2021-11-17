@@ -7,9 +7,9 @@ steps:
 
 
 - name: Build and Push docker image
-  image: core-harbor.popoint.com.tw/library/drone-kaniko:v0.8.2
+  image: core-harbor.popoint.com.tw/library/drone-kaniko:v1.0
   environment:
-    TAG: v0.1-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER}
+    TAG: v1.0-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER}
     BASE64_TOKEN:
       from_secret: HARBOR_DRONE_BASE64_TOKEN
     REGISTRY_USER: "rbc_robot$drone"
