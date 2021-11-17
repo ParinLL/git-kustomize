@@ -13,7 +13,7 @@ steps:
     BASE64_TOKEN:
       from_secret: HARBOR_DRONE_BASE64_TOKEN
     REGISTRY_USER: "rbc_robot$drone"
-    DOCKERFILE_PATH: "Dockerfile"
+    DOCKERFILE_PATH: "/drone/src/Dockerfile"
     REGISTRY: "core-harbor.popoint.com.tw"
     PROJECT_ID: "library"
     IMAGE_PATH: "git-kustomize"
@@ -23,7 +23,7 @@ steps:
   # - echo "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"
   # - ls -al /drone/src
   # - /kaniko/executor --help
-  - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://drone/src/ --cache
+  - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://./ --cache
 
 - name: Send telegram notification
   image: appleboy/drone-telegram
