@@ -13,7 +13,7 @@ steps:
     BASE64_TOKEN:
       from_secret: HARBOR_DRONE_BASE64_TOKEN
     REGISTRY_USER: "rbc_robot$drone"
-    DOCKERFILE_PATH: "/drone/src/Dockerfile"
+    DOCKERFILE_PATH: "Dockerfile"
     REGISTRY: "core-harbor.popoint.com.tw"
     PROJECT_ID: "library"
     IMAGE_PATH: "git-kustomize"
