@@ -11,7 +11,7 @@ steps:
   environment:
     TAG: v0.1-${DRONE_COMMIT_SHA:0:8}-${DRONE_BUILD_NUMBER}
     BASE64_TOKEN:
-      from_secret: HARBOR_RD_TOKENBASE64
+      from_secret: HARBOR_DRONE_BASE64_TOKEN
     REGISTRY_USER: "rbc_robot$drone"
     DOCKERFILE_PATH: "/drone/src/Dockerfile"
     REGISTRY: "core-harbor.popoint.com.tw"
@@ -20,10 +20,10 @@ steps:
   commands:
   - /workspace/entrypoint.sh
   - cat /kaniko/.docker/config.json
-  - echo "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"
+  # - echo "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"
   # - ls -al /drone/src
   # - /kaniko/executor --help
-  # - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://drone/src/
+  - /kaniko/executor -f $DOCKERFILE_PATH  -d "$REGISTRY/$PROJECT_ID/$IMAGE_PATH:$TAG"  -c dir://drone/src/
 
 - name: Send telegram notification
   image: appleboy/drone-telegram
